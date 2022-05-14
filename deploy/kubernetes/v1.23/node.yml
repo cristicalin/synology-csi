@@ -68,6 +68,7 @@ spec:
             - --v=5
             - --csi-address=$(ADDRESS)                         # the csi socket path inside the pod
             - --kubelet-registration-path=$(REGISTRATION_PATH) # the csi socket path on the host node
+            - --health-port=9809
           env:
             - name: ADDRESS
               value: /csi/csi.sock
@@ -82,6 +83,15 @@ spec:
               mountPath: /csi
             - name: registration-dir
               mountPath: /registration
+          ports:
+            - containerPort: 9809
+              name: healthz
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
         - name: csi-plugin
           securityContext:
             privileged: true
