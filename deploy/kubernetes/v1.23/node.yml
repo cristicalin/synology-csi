@@ -63,6 +63,7 @@ spec:
           securityContext:
             privileged: true
           imagePullPolicy: Always
+#          image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.5.1
           image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.5.0
           args:
             - --v=5
@@ -86,12 +87,12 @@ spec:
           ports:
             - containerPort: 9809
               name: healthz
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: healthz
-            initialDelaySeconds: 5
-            timeoutSeconds: 5
+#          livenessProbe:
+#            httpGet:
+#              path: /healthz
+#              port: healthz
+#            initialDelaySeconds: 5
+#            timeoutSeconds: 5
         - name: csi-plugin
           securityContext:
             privileged: true
